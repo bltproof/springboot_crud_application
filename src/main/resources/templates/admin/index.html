@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Users Manager</title>
+</head>
+<body>
+<div align="center">
+    <h3 th:inline="text">Welcome [[${#httpServletRequest.remoteUser}]]</h3>
+
+    <form th:action="@{/logout}" th:method="POST">
+        <input type="submit" value="Logout"/>
+    </form>
+
+    <h1>User Information</h1>
+    <td sec:authorize="hasRole('ROLE_ADMIN')">
+        <a href="admin/new">Create User</a>
+    </td>
+
+    <br/><br/>
+    <table border="1" cellpadding="10">
+        <thead>
+        <tr>
+            <th>User ID</th>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Age</th>
+            <th>Email</th>
+            <th>Role</th>
+
+            <th sec:authorize="hasRole('ROLE_ADMIN')">Actions</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.id}">User ID</td>
+            <td th:text="${user.username}">Username</td>
+            <td th:text="${user.password}">Password</td>
+            <td th:text="${user.age}">Age</td>
+            <td th:text="${user.email}">Email</td>
+            <td>
+                <table>
+                    <tr th:each="role: ${user.getRoles()}">
+                        <div th:text="${role.name}">role</div>
+                </table>
+            </td>
+
+            <td sec:authorize="hasRole('ROLE_ADMIN')">
+                <a th:href="@{'/edit/' + ${user.id}}">Edit</a>
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <a th:href="@{'/delete/' + ${user.id}}">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
