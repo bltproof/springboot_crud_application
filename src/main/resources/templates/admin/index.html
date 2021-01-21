@@ -48,7 +48,7 @@
             </td>
 
             <td sec:authorize="hasRole('ROLE_ADMIN')">
-                <a th:href="@{'/edit/' + ${user.id}}">Edit</a>
+                <a th:href="@{'/admin/edit/' + ${user.id}}">Edit</a>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <a th:href="@{'/delete/' + ${user.id}}">Delete</a>
             </td>

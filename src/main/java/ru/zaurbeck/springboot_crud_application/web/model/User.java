@@ -32,7 +32,7 @@ public class User implements UserDetails {
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-    private Collection<Role> roles;
+    private Collection<Role> roles = new HashSet<>();
 
     public User() {
     }
@@ -42,7 +42,6 @@ public class User implements UserDetails {
         this.password = password;
         this.age = age;
         this.email = email;
-        this.roles = new HashSet<>();
     }
 
     @Override

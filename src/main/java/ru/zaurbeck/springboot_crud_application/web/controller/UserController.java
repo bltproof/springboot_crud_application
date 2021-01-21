@@ -98,27 +98,19 @@ public class UserController {
         return "/admin/edit";
     }
 
-    @PatchMapping(value = "/admin/edit/{id}")
+    @PostMapping(value = "/admin/edit/{id}")
     public String updateUser(@ModelAttribute("user") User user, @ModelAttribute Role role) {
         Role newRole = roleService.listRoles()
                 .stream()
-                .filter(x -> x.getName().equals(role.getName()))
-                .findAny().get();
+                .filter(r -> r.getName().equals(role.getName()))
+                .findAny().orElse(null);
 
-        User obj = userService.getAllUsers()
-                .stream()
-                .filter(u -> u.getId() == user.getId())
-                .findAny()
-                .get();
 
-        obj.setUsername(user.getUsername());
-        obj.setPassword(passwordEncoder.encode(user.getPassword()));
-        obj.setAge(user.getAge());
-        obj.setEmail(user.getEmail());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        obj.setRole(newRole);
+        user.setRole(newRole);
 
-        userService.update(obj);
+        userService.update(user);
 
         return "redirect:/";
     }
