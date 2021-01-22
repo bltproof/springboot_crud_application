@@ -119,15 +119,6 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    public void setRole(Role role) {
-        if (roles.isEmpty()) {
-            roles.add(role);
-        } else {
-            roles = new HashSet<>();
-            roles.add(role);
-        }
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
