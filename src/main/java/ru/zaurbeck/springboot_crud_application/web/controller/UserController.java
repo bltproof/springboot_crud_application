@@ -12,18 +12,21 @@ import ru.zaurbeck.springboot_crud_application.web.service.RoleService;
 import ru.zaurbeck.springboot_crud_application.web.service.UserService;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class UserController {
 
+    private final UserService userService;
+    private final RoleService roleService;
+    private final PasswordEncoder passwordEncoder;
+
     @Autowired
-    private UserService userService;
-    @Autowired
-    private RoleService roleService;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    public UserController(UserService userService, RoleService roleService, PasswordEncoder passwordEncoder) {
+        this.userService = userService;
+        this.roleService = roleService;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @GetMapping("/")
     public String showAllUsers(Model model, Principal principal) {
@@ -44,12 +47,6 @@ public class UserController {
         return "/user/userpage";
     }
 
-    @RequestMapping("/delete/{id}")
-    public String deleteUser(@PathVariable(name = "id") Long id) {
-        userService.deleteById(id);
-        return "redirect:/";
-    }
-
     @GetMapping(value = "/admin/new")
     public String add(Model model) {
         User user = new User();
@@ -60,27 +57,18 @@ public class UserController {
         return "/admin/new";
     }
 
-
-    @GetMapping("/admin/{id}")
-    public String getUser(@PathVariable("id") long id, Model model) {
-        List<User> list = new ArrayList<>();
-        list.add(userService.getUserById(id));
-        model.addAttribute(list);
-        return "admin/index";
+    @PostMapping("/admin/new")
+    public String addUser(Model model, @ModelAttribute("user") User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userService.add(user);
+        model.addAttribute("users", userService.getAllUsers());
+        return "redirect:/";
     }
 
     @GetMapping("/admin/edit/{id}")
     public String editUser(Model model, @PathVariable("id") long id) {
         model.addAttribute("editUser", userService.getUserById(id));
         model.addAttribute("showRoles", roleService.listRoles());
-        return "redirect:/";
-    }
-
-    @PostMapping("/admin/new")
-    public String addUser(Model model, @ModelAttribute("user") User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userService.add(user);
-        model.addAttribute("users", userService.getAllUsers());
         return "redirect:/";
     }
 
@@ -91,6 +79,12 @@ public class UserController {
         }
         userService.update(user);
         model.addAttribute("users", userService.getAllUsers());
+        return "redirect:/";
+    }
+
+    @RequestMapping("/delete/{id}")
+    public String deleteUser(@PathVariable(name = "id") Long id) {
+        userService.deleteById(id);
         return "redirect:/";
     }
 

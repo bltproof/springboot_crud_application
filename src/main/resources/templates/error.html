@@ -6,8 +6,7 @@
         <link rel="stylesheet" href="css/main.css" th:href="@{/css/main.css}" />
     </head>
     <body th:with="httpStatus=${T(org.springframework.http.HttpStatus).valueOf((#response != null)? #response.status : 500)}">
-        <h1 th:text="|${httpStatus} - ${httpStatus.reasonPhrase}|">404</h1>
-        <p th:utext="${errorMessage}">Error java.lang.NullPointerException</p>
-        <a href="index.html" th:href="@{/}">Back to Home Page</a>
+    <h1 th:text="${httpStatus}"></h1>
+        <a th:href="@{/login}">Back to Login Page</a>
     </body>
 </html>
