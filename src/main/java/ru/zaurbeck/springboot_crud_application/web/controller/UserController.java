@@ -60,13 +60,6 @@ public class UserController {
         return "/admin/new";
     }
 
-    @PostMapping("/admin/new")
-    public String addUser(Model model, @ModelAttribute("user") User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userService.add(user);
-        model.addAttribute("users", userService.getAllUsers());
-        return "redirect:/";
-    }
 
     @GetMapping("/admin/{id}")
     public String getUser(@PathVariable("id") long id, Model model) {
@@ -80,6 +73,14 @@ public class UserController {
     public String editUser(Model model, @PathVariable("id") long id) {
         model.addAttribute("editUser", userService.getUserById(id));
         model.addAttribute("showRoles", roleService.listRoles());
+        return "redirect:/";
+    }
+
+    @PostMapping("/admin/new")
+    public String addUser(Model model, @ModelAttribute("user") User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userService.add(user);
+        model.addAttribute("users", userService.getAllUsers());
         return "redirect:/";
     }
 
