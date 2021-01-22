@@ -11,6 +11,7 @@ import ru.zaurbeck.springboot_crud_application.web.model.User;
 import ru.zaurbeck.springboot_crud_application.web.service.RoleService;
 import ru.zaurbeck.springboot_crud_application.web.service.UserService;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,24 +25,23 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @GetMapping(value = "/")
-    public String showAllUsers(@ModelAttribute("user") User user, Model model) {
-        List<User> users = userService.getAllUsers();
-        model.addAttribute("users", users);
-        return "/admin/index";
+    @GetMapping("/")
+    public String showAllUsers(Model model, Principal principal) {
+        long principalId = userService.getUserByName(principal.getName()).getId();
+        User newUser = new User();
+        List<Role> roles = roleService.listRoles();
+        model.addAttribute("newUser", newUser);
+        model.addAttribute("listRoles", roles);
+        model.addAttribute("user", userService.getUserById(principalId));
+        model.addAttribute("users", userService.getAllUsers());
+        return "admin/index";
     }
 
-    @GetMapping(value = "/user/show/{id}")
+    @GetMapping(value = "/user/userpage/{id}")
     public String showUser(@PathVariable("id") long id, Model model) {
         User user = userService.getUserById(id);
         model.addAttribute("user", user);
-        return "/user/show";
-    }
-
-    @DeleteMapping(value = "/delete/{id}")
-    public String deleteUser(@ModelAttribute("user") User user) {
-        userService.delete(user);
-        return "redirect:/";
+        return "/user/userpage";
     }
 
     @RequestMapping("/delete/{id}")
@@ -59,6 +59,15 @@ public class UserController {
         model.addAttribute("roles", roleService.listRoles());
         return "/admin/new";
     }
+
+    @PostMapping("/admin/new")
+    public String addUser(Model model, @ModelAttribute("user") User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userService.add(user);
+        model.addAttribute("users", userService.getAllUsers());
+        return "redirect:/";
+    }
+
     @GetMapping("/admin/{id}")
     public String getUser(@PathVariable("id") long id, Model model) {
         List<User> list = new ArrayList<>();
@@ -67,53 +76,23 @@ public class UserController {
         return "admin/index";
     }
 
-    @PostMapping(value = "/admin/new")
-    public String addUser(Model model, @ModelAttribute("user") User user, @ModelAttribute("role") Role role) {
-        Role newRole = roleService.listRoles()
-                .stream()
-                .filter(x -> x.getName().equals(role.getName()))
-                .findAny().get();
+    @GetMapping("/admin/edit/{id}")
+    public String editUser(Model model, @PathVariable("id") long id) {
+        model.addAttribute("editUser", userService.getUserById(id));
+        model.addAttribute("showRoles", roleService.listRoles());
+        return "redirect:/";
+    }
 
-        User obj = new User(
-                user.getUsername(),
-                passwordEncoder.encode(user.getPassword()),
-                user.getAge(),
-                user.getEmail());
-
-        obj.setRole(newRole);
-        userService.add(obj);
+    @PostMapping("/admin/edit/{id}")
+    public String updateUser(Model model, @ModelAttribute("user") User user) {
+        if (!user.getPassword().equals(userService.getUserById(user.getId()).getPassword())) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+        userService.update(user);
         model.addAttribute("users", userService.getAllUsers());
         return "redirect:/";
     }
 
-    @GetMapping(value = "/admin/edit/{id}")
-    public String editUser(@PathVariable("id") long id, Model model) {
-        User user = userService.getUserById(id);
-
-        Role role = user.getRoles().stream().findFirst().orElse(new Role());
-
-        model.addAttribute("user", user);
-        model.addAttribute("role", role);
-        model.addAttribute("roles", roleService.listRoles());
-        return "/admin/edit";
-    }
-
-    @PostMapping(value = "/admin/edit/{id}")
-    public String updateUser(@ModelAttribute("user") User user, @ModelAttribute Role role) {
-        Role newRole = roleService.listRoles()
-                .stream()
-                .filter(r -> r.getName().equals(role.getName()))
-                .findAny().orElse(null);
-
-
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-        user.setRole(newRole);
-
-        userService.update(user);
-
-        return "redirect:/";
-    }
     @GetMapping("/login")
     public String loginPage(ModelMap model) {
         return "login";
