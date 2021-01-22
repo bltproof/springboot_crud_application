@@ -61,7 +61,6 @@
                                 <th>Email</th>
                                 <th>Role</th>
                                 <th>Actions</th>
-                                <!--                                    <th>Delete</th>-->
                             </tr>
                             </thead>
                             <tbody>
@@ -80,9 +79,7 @@
 
                                 <!----------------------- Edit Modal ---------------------------------------------->
                                 <a class="align-middle">
-                                    <button class="btn btn-info" data-toggle="modal"
-                                            th:attr="data-target='#editModal'+*{user.id}">Edit
-                                    </button>
+                                    <button class="btn btn-info" data-toggle="modal" th:attr="data-target='#editModal'+*{user.id}">Edit</button>
                                     <div class="modal fade" th:id="'editModal'+*{user.id}"
                                          tabindex="-1"
                                          role="dialog" aria-labelledby="editModalTitle"
