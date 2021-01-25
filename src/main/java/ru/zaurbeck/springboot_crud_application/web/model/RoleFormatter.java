@@ -25,7 +25,6 @@ public class RoleFormatter implements Formatter<Role> {
 
     @Override
     public String print(Role role, Locale locale) {
-
         return String.valueOf(role.getId());
     }
 }

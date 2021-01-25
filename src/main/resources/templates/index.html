@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin panel</title>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -14,7 +13,7 @@
 
 </head>
 <body>
-<!----------------------HEADER--------------------------------------->
+<!------------------------------------Nav Bar Row-------------------------------------------------------->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark text-light">
     <div class="container-fluid">
         <ul class="navbar-nav mr-auto">
@@ -27,11 +26,10 @@
     </div>
 </nav>
 
-<!-------------------- --BODY----------------------------------------->
+<!-----------------------------------------BODY---------------------------------------------------->
 <div class="container-fluid">
     <div class="row" style="height: 100vh">
 
-        <!----------------VERTICAL NAVIGATION--------------------------------->
         <div class="col-2 bg-light pt-3">
             <div class="nav flex-column nav-pills" role="tablist" aria-orientation="vertical">
                 <li class="nav-item text-center">
@@ -44,7 +42,6 @@
             </div>
         </div>
 
-        <!---------------------PANEL------------------------------------------->
         <div class="col-10 bg-light" id="admin-panel" style="display: none">
             <h1 class="m-3">Admin panel</h1>
             <ul class="nav nav-tabs mx-3" role="tablist">
@@ -54,7 +51,7 @@
                 </li>
             </ul>
 
-            <!------------------Users table------------------------------------------->
+            <!--------------------------------------------Users table----------------------------------------------->
             <div class="tab-content" id="allUsersPage" style="display: none">
                 <div class="card mx-3 tab-pane active" role="tabpanel" >
                     <div class="card-header">
@@ -65,8 +62,7 @@
                             <thead id="userTableHead">
                             <tr>
                                 <th>ID</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
+                                <th>Username</th>
                                 <th>Age</th>
                                 <th>Email</th>
                                 <th>Role</th>
@@ -81,38 +77,34 @@
                 </div>
             </div>
 
-            <!-------------------New user------------------------------------------->
+            <!-------------------------------------------New user panel---------------------------------------------->
             <div class="card mx-3 card tab-pane" role="tabpanel" id="newUserPage" style="display: none">
                 <div class="card-header">
-                    <h5 id="createUserForm">Add new user</h5>
+                    <h5 id="createUserForm">Add user</h5>
                 </div>
                 <div class="card-body row justify-content-center align-items-center">
                     <div class="col-5 text-center">
                         <form>
                             <div class="form-group">
-                                <label class="font-weight-bold" for="c_firstname" >First name</label>
-                                <input class="form-control" type="text" field="firstname" id="c_firstname" required autofocus/>
+                                <label class="font-weight-bold" for="c_username" >Username</label>
+                                <input class="form-control" type="text" field="username" id="c_username"  required autofocus/>
                             </div>
-                            <div class="form-group">
-                                <label class="font-weight-bold" for="c_lastname" >Last name</label>
-                                <input class="form-control" type="text" field="lastname" id="c_lastname" required autofocus/>
-                            </div>
-                            <div class="form-group">
-                                <label class="font-weight-bold" for="c_age" >Age</label>
-                                <input class="form-control" type="text" field="age" id="c_age" required autofocus/>
-                            </div>
-                            <div class="form-group">
-                                <label class="font-weight-bold" for="c_email" >Email</label>
-                                <input class="form-control" type="text" field="email" id="c_email" required autofocus/>
-                            </div>
+
                             <div class="form-group">
                                 <label class="font-weight-bold" for="c_password" >Password</label>
                                 <input class="form-control" type="text" field="password" id="c_password" required autofocus/>
                             </div>
+
                             <div class="form-group">
-                                <label class="font-weight-bold" for="c_username" >Username</label>
-                                <input class="form-control" type="text" field="username" id="c_username"  required autofocus/>
+                                <label class="font-weight-bold" for="c_age" >Age</label>
+                                <input class="form-control" type="text" field="age" id="c_age" required autofocus/>
                             </div>
+
+                            <div class="form-group">
+                                <label class="font-weight-bold" for="c_email" >Email</label>
+                                <input class="form-control" type="text" field="email" id="c_email" required autofocus/>
+                            </div>
+
                             <div class="form-group">
                                 <label class="font-weight-bold mr-2" for="c_roles">Role</label>
                                 <select class="custom-select" size="2" multiple
@@ -121,14 +113,14 @@
                                 </select>
                             </div>
                             <div>
-                                <input id="createBtn" class="btn btn-success" type="submit" value="Add new user">
+                                <input id="createBtn" class="btn btn-success" type="submit" value="Add user">
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
 
-            <!----------------- Edit Modal ------------------------------------------->
+            <!--------------------------------------------Modal Window ------------------------------------------------>
             <div class="modal fade" id="userEditModal"
                  tabindex="-1"
                  role="dialog" aria-labelledby="editModalTitle"
@@ -198,14 +190,12 @@
             </div>
         </div>
 
-        <!------------------- About ------------------------------------------->
+        <!------------------------------------- User information-page ------------------------------------------->
         <div class="col-10 bg-light" id="about" style="display: none">
-            <h1 class="m-3">Authorized user</h1>
+            <h1 class="m-3">User information-page</h1>
             <div class="tab-content">
                 <div class="card mx-3 tab-pane active" role="tabpanel">
-                    <div class="card-header">
-                        <h5>About user</h5>
-                    </div>
+
                     <div class="card-body">
                         <table id="currentUserTable" class="table table-striped text-center" style="display: none">
                             <thead>

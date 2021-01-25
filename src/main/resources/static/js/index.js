@@ -63,12 +63,10 @@ $(document).ready(function () {
             type: "POST",
             data:
                 JSON.stringify({
-                    firstname: jQuery('#c_firstname').val(),
-                    lastname: jQuery('#c_lastname').val(),
+                    username: jQuery('#c_username').val(),
+                    password: jQuery('#c_password').val(),
                     age: jQuery('#c_age').val(),
                     email: jQuery('#c_email').val(),
-                    password: jQuery('#c_password').val(),
-                    username: jQuery('#c_username').val(),
                     roles: jQuery('#c_roles').val()
                 }),
             success: function (result) {
@@ -86,12 +84,10 @@ $(document).ready(function () {
             data:
                 JSON.stringify({
                     id: jQuery('#id').val(),
-                    firstname: jQuery('#firstname').val(),
-                    lastname: jQuery('#lastname').val(),
+                    username: jQuery('#username').val(),
+                    password: jQuery('#password').val(),
                     age: jQuery('#age').val(),
                     email: jQuery('#email').val(),
-                    password: jQuery('#password').val(),
-                    username: jQuery('#username').val(),
                     roles: jQuery('#roles').val()
                 }),
             success: function (result) {
@@ -129,8 +125,7 @@ function showUserTable(result) {
         let user_data = '';
         user_data += '<tr>'
         user_data += '<td class="align-middle">' + value.id + '</td>'
-        user_data += '<td class="align-middle">' + value.firstname + '</td>'
-        user_data += '<td class="align-middle">' + value.lastname + '</td>'
+        user_data += '<td class="align-middle">' + value.username + '</td>'
         user_data += '<td class="align-middle">' + value.age + '</td>'
         user_data += '<td class="align-middle">' + value.email + '</td>'
         user_data += '<td class="align-middle">' + '<table>' + '<tr>'

@@ -2,12 +2,14 @@ package ru.zaurbeck.springboot_crud_application.web.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ru.zaurbeck.springboot_crud_application.web.model.Role;
 import ru.zaurbeck.springboot_crud_application.web.model.User;
 import ru.zaurbeck.springboot_crud_application.web.service.RoleService;
 import ru.zaurbeck.springboot_crud_application.web.service.UserService;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,13 +18,15 @@ import java.util.Set;
 @RequestMapping("/api")
 public class DataRestController {
 
-    final private UserService userService;
-    final private RoleService roleService;
+    private final UserService userService;
+    private final RoleService roleService;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public DataRestController(UserService userService, RoleService roleService) {
+    public DataRestController(UserService userService, RoleService roleService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.roleService = roleService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/roles")
@@ -42,6 +46,7 @@ public class DataRestController {
 
     @PostMapping("/users")
     public List<User> newUser(@RequestBody User user){
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         setRoles(user);
         userService.add(user);
         return userService.getAllUsers();
@@ -61,7 +66,7 @@ public class DataRestController {
     }
 
     private void setRoles(User user) {
-        Set<Role> receivedRoles = (Set<Role>) user.getRoles();
+        Collection<Role> receivedRoles = user.getRoles();
         Set<Role> roles = new HashSet<>();
         for (Role r : receivedRoles) {
             roles.add(roleService.getRoleByName(r.getName()));
