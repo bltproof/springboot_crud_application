@@ -1,47 +1,50 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <title>User</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <meta charset="UTF-8">
-    <title>User page</title>
 </head>
 <body>
-<!----------------------HEADER--------------------------------------->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark text-light">
     <div class="container-fluid">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item"><strong><a th:text="${user.email}">Email</a></strong></li>
             <li class="nav-item ml-3"><a>with roles:</a></li>
-            <li class="nav-item ml-1" th:each="role: ${user.getRoles()}"><a th:text="${role.getName()} ">roles</a>
-            </li>
+            <li class="nav-item ml-1" th:each="role: ${user.getRoles()}"><a th:text="${role.getName()} ">roles</a></li>
         </ul>
         <a class="text-light" th:href="@{/logout}">Logout</a>
     </div>
 </nav>
-<!-------------------------------BODY-------------------------------------------->
+
+
 <div class="container-fluid">
     <div class="row" style="height: 100vh">
-        <!------------VERTICAL NAVIGATION---------------------------->
-        <div class="col-2 bg-light pt-3">
+        <div class="col-2 bg-light">
             <ul class="nav nav-pills nav-fill mt-4" aria-orientation="vertical">
-
                 <div class="column col-12">
                     <li th:if="${#authorization.expression('hasAuthority(''ROLE_ADMIN'')')}" class="nav-item">
 
-                        <a class="nav-link" aria-current="page" th:href="@{/}">Admin</a>
+                        <a class="nav-link" aria-current="page" th:href="@{/admin/users/}">Admin</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">User</a>
+                        <a class="nav-link active" href="#">User</a>
                     </li>
                 </div>
             </ul>
         </div>
-        <!-------------PANEL------------------------------------------->
+
         <div class="col-md-10 bg-light">
-            <h1 class="m-3">User information-page</h1>
+            <h1 class="m-3">User information panel</h1>
             <div class="mx-3 card">
                 <div class="card-header">
                     <h5>About user</h5>
@@ -90,3 +93,4 @@
         crossorigin="anonymous"></script>
 </body>
 </html>
+

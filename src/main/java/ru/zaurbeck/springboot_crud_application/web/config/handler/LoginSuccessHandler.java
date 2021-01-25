@@ -32,6 +32,6 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         if (principal instanceof UserDetails) {
             userName = ((UserDetails) principal).getUsername();
         }
-        httpServletResponse.sendRedirect("/user/userpage/" + userService.getUserByName(userName).getId());
+        httpServletResponse.sendRedirect("/userpage/" + userService.getUserByName(userName).getId());
     }
 }
