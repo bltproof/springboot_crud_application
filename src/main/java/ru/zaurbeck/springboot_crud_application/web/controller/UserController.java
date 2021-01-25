@@ -42,28 +42,28 @@ public class UserController {
         return "/user/userpage";
     }
 
-    @PostMapping("/admin/new")
-    public String addUser(@ModelAttribute("user") User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userService.add(user);
-        return "redirect:/";
-    }
-
-    @PostMapping("/admin/edit/{id}")
-    public String updateUser(Model model, @ModelAttribute("user") User user) {
-        if (!user.getPassword().equals(userService.getUserById(user.getId()).getPassword())) {
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-        }
-        userService.update(user);
-        model.addAttribute("users", userService.getAllUsers());
-        return "redirect:/";
-    }
-
-    @RequestMapping("/delete/{id}")
-    public String deleteUser(@PathVariable(name = "id") Long id) {
-        userService.deleteById(id);
-        return "redirect:/";
-    }
+//    @PostMapping("/admin/new")
+//    public String addUser(@ModelAttribute("user") User user) {
+//        user.setPassword(passwordEncoder.encode(user.getPassword()));
+//        userService.add(user);
+//        return "redirect:/";
+//    }
+//
+//    @PostMapping("/admin/edit/{id}")
+//    public String updateUser(Model model, @ModelAttribute("user") User user) {
+//        if (!user.getPassword().equals(userService.getUserById(user.getId()).getPassword())) {
+//            user.setPassword(passwordEncoder.encode(user.getPassword()));
+//        }
+//        userService.update(user);
+//        model.addAttribute("users", userService.getAllUsers());
+//        return "redirect:/";
+//    }
+//
+//    @RequestMapping("/delete/{id}")
+//    public String deleteUser(@PathVariable(name = "id") Long id) {
+//        userService.deleteById(id);
+//        return "redirect:/";
+//    }
 
     @GetMapping("/login")
     public String loginPage() {
