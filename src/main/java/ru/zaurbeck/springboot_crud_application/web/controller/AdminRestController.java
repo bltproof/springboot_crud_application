@@ -15,22 +15,20 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/api")
-public class DataRestController {
+@RequestMapping("/rest")
+public class AdminRestController {
 
     private final UserService userService;
     private final RoleService roleService;
-    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public DataRestController(UserService userService, RoleService roleService, PasswordEncoder passwordEncoder) {
+    public AdminRestController(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/roles")
-    public List<Role> getRoles(){
+    public List<Role> getRoles() {
         return roleService.listRoles();
     }
 
@@ -39,28 +37,27 @@ public class DataRestController {
         return userService.getAllUsers();
     }
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/user/{id}")
     public User getUser(@PathVariable long id) {
         return userService.getUserById(id);
     }
 
-    @PostMapping("/users")
-    public List<User> newUser(@RequestBody User user){
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+    @PostMapping("/newUser")
+    public List<User> newUser(@RequestBody User user) {
         setRoles(user);
         userService.add(user);
         return userService.getAllUsers();
     }
 
-    @PutMapping("/users")
-    public List<User> updateUser(@RequestBody User user){
+    @PutMapping("/updateUser")
+    public List<User> updateUser(@RequestBody User user) {
         setRoles(user);
         userService.update(user);
         return userService.getAllUsers();
     }
 
-    @DeleteMapping("/users/{id}")
-    public List<User> deleteUser(@PathVariable long id){
+    @DeleteMapping("/deleteUser/{id}")
+    public List<User> deleteUser(@PathVariable long id) {
         userService.delete(userService.getUserById(id));
         return userService.getAllUsers();
     }

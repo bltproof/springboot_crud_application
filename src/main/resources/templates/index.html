@@ -37,7 +37,7 @@
                 </li>
 
                 <li class="nav-item text-center">
-                    <a class="nav-link" aria-current="page" href="#" id="nav-about">About me</a>
+                    <a class="nav-link" aria-current="page" href="#" id="nav-user">User</a>
                 </li>
             </div>
         </div>
@@ -66,8 +66,7 @@
                                 <th>Age</th>
                                 <th>Email</th>
                                 <th>Role</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
+                                <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody id="userTableBody">
@@ -120,7 +119,7 @@
                 </div>
             </div>
 
-            <!--------------------------------------------Modal Window ------------------------------------------------>
+            <!--------------------------------------------Update user modal------------------------------------------------>
             <div class="modal fade" id="userEditModal"
                  tabindex="-1"
                  role="dialog" aria-labelledby="editModalTitle"
@@ -129,22 +128,40 @@
                     <div class="modal-content">
 
                         <div class="modal-header">
-                            <h5 class="modal-title" id="editModalTitle">Edit
-                                user</h5>
+                            <h5 class="modal-title" id="editModalTitle">Edit user</h5>
+
                             <button type="button" class="close"
                                     data-bs-dismiss="modal"
                                     aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
+
                         </div>
+
                         <form id="userEditForm" action="" method="PUT">
+
                             <div class="modal-body text-center">
+
                                 <fieldset disabled>
                                     <div class="form-group ">
                                         <label class="font-weight-bold" for="id">ID</label>
                                         <input type="text" name="id" id="id" value="" class="form-control" required>
                                     </div>
                                 </fieldset>
+
+                                <div class="form-group">
+                                    <label class="font-weight-bold"
+                                           for="username">Username</label>
+                                    <input type="text" name="username" value="" id="username"
+                                           class="form-control" required autofocus/>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="font-weight-bold"
+                                           for="password">Password</label>
+                                    <input type="text" name="password" value="" id="password"
+                                           class="form-control" required autofocus/>
+                                </div>
 
                                 <div class="form-group">
                                     <label class="font-weight-bold" for="age">Age</label>
@@ -155,19 +172,6 @@
                                     <label class="font-weight-bold"
                                            for="email">Email</label>
                                     <input type="text" name="email" value="" id="email"
-                                           class="form-control" required autofocus/>
-                                </div>
-                                <div class="form-group">
-                                    <label class="font-weight-bold"
-                                           for="username">Username</label>
-                                    <input type="text" name="username" value="" id="username"
-                                           class="form-control" required autofocus/>
-
-                                </div>
-                                <div class="form-group">
-                                    <label class="font-weight-bold"
-                                           for="password">Password</label>
-                                    <input type="text" name="password" value="" id="password"
                                            class="form-control" required autofocus/>
                                 </div>
                                 <label class="font-weight-bold mr-2"
@@ -188,6 +192,84 @@
                     </div>
                 </div>
             </div>
+
+
+
+<!------------------------------------------------------------Delete user modal-------------------------------------->
+            <div class="modal fade" id="userDeleteModal"
+                 tabindex="-1"
+                 role="dialog" aria-labelledby="deleteModalTitle"
+                 aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalTitle">Delete user</h5>
+
+                            <button type="button" class="close"
+                                    data-bs-dismiss="modal"
+                                    aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+
+                        </div>
+
+                        <form id="userDeleteForm" action="" method="DELETE">
+                            <div class="modal-body text-center">
+                                <fieldset disabled>
+                                    <div class="form-group ">
+                                        <label class="font-weight-bold" for="d_id">ID</label>
+                                        <input type="text" name="id" id="d_id" value="" class="form-control" required>
+                                    </div>
+                                </fieldset>
+
+                                <div class="form-group">
+                                    <label class="font-weight-bold"
+                                           for="d_username">Username</label>
+                                    <input type="text" name="username" value="" id="d_username"
+                                           class="form-control" required autofocus/>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="font-weight-bold"
+                                           for="d_password">Password</label>
+                                    <input type="text" name="password" value="" id="d_password"
+                                           class="form-control" required autofocus/>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="font-weight-bold" for="d_age">Age</label>
+                                    <input type="text" name="age" value="" id="d_age"
+                                           class="form-control" required autofocus/>
+                                </div>
+                                <div class="form-group">
+                                    <label class="font-weight-bold"
+                                           for="d_email">Email</label>
+                                    <input type="text" name="email" value="" id="d_email"
+                                           class="form-control" required autofocus/>
+                                </div>
+                                <label class="font-weight-bold mr-2"
+                                       for="roles">Roles:</label>
+                                <select class="custom-select" size="2" multiple
+                                        value="" name="roles" id="d_roles" required>
+                                </select>
+                            </div>
+                        </form>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary"
+                                    data-bs-dismiss="modal">Close
+                            </button>
+                            <button id="deleteBtn" type="submit" class="btn btn-primary">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
         </div>
 
         <!------------------------------------- User information-page ------------------------------------------->

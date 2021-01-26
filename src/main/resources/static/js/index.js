@@ -1,27 +1,27 @@
 $(document).ready(function () {
 
     let navAdmin = $("#nav-admin");
-    let navAbout = $("#nav-about");
+    let navUser = $("#nav-user");
     let adminPanel = $("#admin-panel");
     let about = $("#about");
 
     adminPanel.show();
     navAdmin.click(() => {
-        navAbout.removeClass('active');
+        navUser.removeClass('active');
     navAdmin.addClass('active');
     about.hide();
     adminPanel.show();
 });
-    navAbout.click(() => {
+    navUser.click(() => {
         navAdmin.removeClass('active');
-    navAbout.addClass('active');
+    navUser.addClass('active');
     about.show();
     adminPanel.hide();
     $('#currentUserTable').show();
 });
 
     $.ajax({
-        url: '/api/users',
+        url: '/rest/users',
         method: 'get',
         dataType: 'json',
         contentType: "application/json",
@@ -56,7 +56,7 @@ $(document).ready(function () {
     $("#createBtn").click(function () {
 
         $.ajax({
-            url: '/api/users',
+            url: '/rest/newUser',
             async: true,
             dataType: 'json',
             contentType: "application/json",
@@ -77,7 +77,7 @@ $(document).ready(function () {
 
     $("#editBtn").click(function () {
         $.ajax({
-            url: '/api/users',
+            url: '/rest/updateUser',
             async: true,
             contentType: "application/json",
             type: "PUT",
@@ -102,7 +102,7 @@ $(document).ready(function () {
 
 function showroles(fieldid) {
     $.ajax({
-        url: '/api/roles/',
+        url: '/rest/roles/',
         method: 'get',
         dataType: 'json',
         contentType: "application/json",
@@ -137,8 +137,8 @@ function showUserTable(result) {
         user_data += "<td class=\"align-middle\"><button id=\"buttonUserEdit" + value.id + "\" type=\"button\" class=\"btn btn-info btn-sm\" data-bs-toggle=\"modal\"\n" +
             "        data-bs-target=\"#userEditModal\" value=\"Edit user\">\n" +
             "    Edit\n" +
-            "</button></td>"
-        user_data += "<td class=\"align-middle\"><button id=\"buttonUserDelete" + value.id + "\" type=\"button\" class=\"btn btn-danger btn-sm\" \n" +
+            "</button>&nbsp;&nbsp;&nbsp;"
+        user_data += "<button id=\"buttonUserDelete" + value.id + "\" type=\"button\" class=\"btn btn-danger btn-sm\" \n" +
             "        value=\"" + value.id + "\">\n" +
             "    Delete\n" +
             "</button></td>"
@@ -154,7 +154,7 @@ function showUserTable(result) {
         $("#buttonUserEdit" + value.id).click(function () {
 
             $.ajax({
-                url: '/api/users/' + value.id,
+                url: '/rest/user/' + value.id,
                 method: 'get',
                 dataType: 'json',
                 contentType: "application/json",
@@ -172,20 +172,14 @@ function showUserTable(result) {
 
         $("#buttonUserDelete" + value.id).click(function () {
             $.ajax({
-                url: "/api/users/" + value.id,
+                url: "/rest/deleteUser/" + value.id,
                 async: true,
                 type: "DELETE",
 
                 success: function (result) {
-
                     showUserTable(result);
                 }
             })
-
         });
-
-
     })
-
-
 }
