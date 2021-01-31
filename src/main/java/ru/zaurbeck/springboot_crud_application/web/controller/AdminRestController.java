@@ -18,14 +18,12 @@ import java.util.Set;
 @RequestMapping("/rest")
 public class AdminRestController {
 
-    private final UserService userService;
-    private final RoleService roleService;
-
     @Autowired
-    public AdminRestController(UserService userService, RoleService roleService) {
-        this.userService = userService;
-        this.roleService = roleService;
-    }
+    private UserService userService;
+    @Autowired
+    private RoleService roleService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping("/roles")
     public List<Role> getRoles() {
@@ -44,6 +42,7 @@ public class AdminRestController {
 
     @PostMapping("/newUser")
     public List<User> newUser(@RequestBody User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         setRoles(user);
         userService.add(user);
         return userService.getAllUsers();
@@ -51,6 +50,9 @@ public class AdminRestController {
 
     @PutMapping("/updateUser")
     public List<User> updateUser(@RequestBody User user) {
+        if(!user.getPassword().equals(userService.getUserById(user.getId()).getPassword())) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
         setRoles(user);
         userService.update(user);
         return userService.getAllUsers();
