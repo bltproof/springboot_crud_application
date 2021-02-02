@@ -8,20 +8,7 @@
     <meta charset="utf-8"/>
 </head>
 <body>
-<style>
-    input[type = "text"] {
-        border-bottom-left-radius: 0px;;
-        border-bottom-right-radius: 0px;;
-    }
 
-    input[type = "password"] {
-        border-top-left-radius: 0px;;
-        border-top-right-radius: 0px;;
-        border-top: 0px;
-    }
-
-
-</style>
 <div class="text-center mt-4">
 
     <form name="f" th:action="@{/login}" method="post" style="max-width: 320px; margin: auto">
@@ -53,7 +40,6 @@
         </div>
     </form>
 </div>
-<!--<p th:if="${loginError}" class="error">Wrong user or password</p>-->
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"
         integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU"

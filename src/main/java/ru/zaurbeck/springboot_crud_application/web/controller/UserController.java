@@ -69,4 +69,9 @@ public class UserController {
     public String loginPage() {
         return "login";
     }
+
+    @GetMapping("/403")
+    public String errorPage() {
+        return "403";
+    }
 }
