@@ -38,12 +38,6 @@ public class UserController {
         return "/user/show";
     }
 
-    @DeleteMapping(value = "/delete/{id}")
-    public String deleteUser(@ModelAttribute("user") User user) {
-        userService.delete(user);
-        return "redirect:/";
-    }
-
     @RequestMapping("/delete/{id}")
     public String deleteUser(@PathVariable(name = "id") Long id) {
         userService.deleteById(id);
@@ -59,13 +53,6 @@ public class UserController {
         model.addAttribute("roles", roleService.listRoles());
         return "/admin/new";
     }
-    @GetMapping("/admin/{id}")
-    public String getUser(@PathVariable("id") long id, Model model) {
-        List<User> list = new ArrayList<>();
-        list.add(userService.getUserById(id));
-        model.addAttribute(list);
-        return "admin/index";
-    }
 
     @PostMapping(value = "/admin/new")
     public String addUser(Model model, @ModelAttribute("user") User user, @ModelAttribute("role") Role role) {
@@ -74,14 +61,9 @@ public class UserController {
                 .filter(x -> x.getName().equals(role.getName()))
                 .findAny().get();
 
-        User obj = new User(
-                user.getUsername(),
-                passwordEncoder.encode(user.getPassword()),
-                user.getAge(),
-                user.getEmail());
-
-        obj.setRole(newRole);
-        userService.add(obj);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(newRole);
+        userService.add(user);
         model.addAttribute("users", userService.getAllUsers());
         return "redirect:/";
     }
@@ -105,11 +87,11 @@ public class UserController {
                 .filter(r -> r.getName().equals(role.getName()))
                 .findAny().orElse(null);
 
-
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        if(!user.getPassword().equals(userService.getUserById(user.getId()).getPassword())) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
 
         user.setRole(newRole);
-
         userService.update(user);
 
         return "redirect:/";
@@ -117,5 +99,10 @@ public class UserController {
     @GetMapping("/login")
     public String loginPage(ModelMap model) {
         return "login";
+    }
+
+    @GetMapping("/403")
+    public String errorPage() {
+        return "/403";
     }
 }
