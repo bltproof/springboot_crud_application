@@ -2,6 +2,8 @@ package ru.zaurbeck.springboot_crud_application.web.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ru.zaurbeck.springboot_crud_application.web.model.Role;
@@ -26,42 +28,60 @@ public class AdminRestController {
     private PasswordEncoder passwordEncoder;
 
     @GetMapping("/roles")
-    public List<Role> getRoles() {
-        return roleService.listRoles();
+    public ResponseEntity<?> getRoles() {
+        return new ResponseEntity<>(roleService.listRoles(), HttpStatus.OK);
     }
 
     @GetMapping("/users")
-    public List<User> getUsers() {
-        return userService.getAllUsers();
+    public ResponseEntity<?> getUsers() {
+        List<User> users = userService.getAllUsers();
+
+        return users != null &&  !users.isEmpty()
+                ? new ResponseEntity<>(users, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/user/{id}")
-    public User getUser(@PathVariable long id) {
-        return userService.getUserById(id);
+    public ResponseEntity<User> getUser(@PathVariable long id) {
+        User user = userService.getUserById(id);
+        if (user == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PostMapping("/newUser")
-    public List<User> newUser(@RequestBody User user) {
+    public ResponseEntity<?> newUser(@RequestBody User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         setRoles(user);
-        userService.add(user);
-        return userService.getAllUsers();
+
+        try {
+            userService.add(user);
+        } catch (Exception e) {
+            return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
     @PutMapping("/updateUser")
-    public List<User> updateUser(@RequestBody User user) {
+    public ResponseEntity<?> updateUser(@RequestBody User user) {
         if(!user.getPassword().equals(userService.getUserById(user.getId()).getPassword())) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
         setRoles(user);
-        userService.update(user);
-        return userService.getAllUsers();
+        try {
+            userService.update(user);
+        } catch (Exception e) {
+            return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
     @DeleteMapping("/deleteUser/{id}")
-    public List<User> deleteUser(@PathVariable long id) {
+    public ResponseEntity<?> deleteUser(@PathVariable long id) {
         userService.delete(userService.getUserById(id));
-        return userService.getAllUsers();
+        return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
     private void setRoles(User user) {

@@ -69,6 +69,9 @@ $(document).ready(function () {
                     email: jQuery('#c_email').val(),
                     roles: jQuery('#c_roles').val()
                 }),
+            error: function(jqXHR) {
+                alert('Ошибка при сохранении пользователя - Internal server error: ' + jqXHR.status);
+            },
             success: function (result) {
                 showUserTable(result);
             }
@@ -90,10 +93,15 @@ $(document).ready(function () {
                     email: jQuery('#email').val(),
                     roles: jQuery('#roles').val()
                 }),
+            error: function(jqXHR) {
+                alert('Ошибка при сохранении пользователя - Internal server error: ' + jqXHR.status);
+            },
             success: function (result) {
+                console.log('result = ' + result);
                 showUserTable(result);
             }
         })
+
         $('#userEditModal').modal('hide');
     });
 
@@ -158,6 +166,9 @@ function showUserTable(result) {
                 method: 'get',
                 dataType: 'json',
                 contentType: "application/json",
+                error: function(jqXHR) {
+                    alert('Пользователь не найден - Not found: ' + jqXHR.status);
+                },
                 success: function (result) {
 
                     $.each(result, function (k, v) {
