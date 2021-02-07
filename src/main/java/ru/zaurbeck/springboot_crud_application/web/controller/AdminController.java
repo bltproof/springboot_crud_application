@@ -18,14 +18,20 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/rest")
-public class AdminRestController {
+public class AdminController {
+
+    private final UserService userService;
+    private final RoleService roleService;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    private UserService userService;
-    @Autowired
-    private RoleService roleService;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    public AdminController(UserService userService,
+                           RoleService roleService,
+                           PasswordEncoder passwordEncoder) {
+        this.userService = userService;
+        this.roleService = roleService;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @GetMapping("/roles")
     public ResponseEntity<?> getRoles() {
@@ -58,9 +64,8 @@ public class AdminRestController {
         try {
             userService.add(user);
         } catch (Exception e) {
-            return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
 
@@ -73,7 +78,7 @@ public class AdminRestController {
         try {
             userService.update(user);
         } catch (Exception e) {
-            return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }

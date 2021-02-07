@@ -2,10 +2,10 @@ package ru.zaurbeck.springboot_crud_application.web.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.zaurbeck.springboot_crud_application.web.dao.UserDao;
 import ru.zaurbeck.springboot_crud_application.web.model.User;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service

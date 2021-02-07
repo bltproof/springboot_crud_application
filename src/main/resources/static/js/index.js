@@ -70,10 +70,12 @@ $(document).ready(function () {
                     roles: jQuery('#c_roles').val()
                 }),
             error: function(jqXHR) {
-                alert('Ошибка при сохранении пользователя - Internal server error: ' + jqXHR.status);
+                console.log('jqXHR = ' + jqXHR);
+                alert('Ошибка при создании пользователя - Internal server error: ' + jqXHR.status);
             },
-            success: function (result) {
+            success: function (result, jqXHR) {
                 showUserTable(result);
+                alert('Пользователь успешно создан: ' + jqXHR.status);
             }
         })
     });
@@ -94,7 +96,7 @@ $(document).ready(function () {
                     roles: jQuery('#roles').val()
                 }),
             error: function(jqXHR) {
-                alert('Ошибка при сохранении пользователя - Internal server error: ' + jqXHR.status);
+                alert('Ошибка при редактировании пользователя - Internal server error: ' + jqXHR.status);
             },
             success: function (result) {
                 console.log('result = ' + result);

@@ -24,7 +24,7 @@ public class UserController {
     @GetMapping("/index")
     public String getUsers(Model model, Principal principal) {
         model.addAttribute("user", userService.getUserByName(principal.getName()));
-        model.addAttribute("users", userService.getAllUsers());
+//        model.addAttribute("users", userService.getAllUsers());
         model.addAttribute("listRoles", roleService.listRoles());
         return "index";
     }

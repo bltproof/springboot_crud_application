@@ -1,9 +1,9 @@
 package ru.zaurbeck.springboot_crud_application.web.dao;
 
-import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 import ru.zaurbeck.springboot_crud_application.web.model.User;
 
+import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
@@ -12,13 +12,10 @@ import java.util.List;
 public class UserDaoImpl implements UserDao {
 
     @PersistenceContext
-    private Session entityManager;
+    private EntityManager entityManager;
 
     @Override
     public void add(User user) {
-        if (user.getUsername().equals("")) {
-            user.setUsername(null);
-        }
         entityManager.persist(user);
     }
 
@@ -47,7 +44,7 @@ public class UserDaoImpl implements UserDao {
     public void update(User user) {
         User obj = entityManager.find(User.class, user.getId());
         entityManager.detach(obj);
-        obj.setUsername(user.getUsername().equals("") ? null : user.getUsername());
+        obj.setUsername(user.getUsername());
         obj.setPassword(user.getPassword());
         obj.setAge(user.getAge());
         obj.setEmail(user.getEmail());
