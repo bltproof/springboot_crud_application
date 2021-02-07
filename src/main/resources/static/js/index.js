@@ -69,6 +69,10 @@ $(document).ready(function () {
                     email: jQuery('#c_email').val(),
                     roles: jQuery('#c_roles').val()
                 }),
+            error: function(jqXHR) {
+                console.log('jqXHR = ' + jqXHR);
+                alert('Ошибка при создании пользователя - Internal server error: ' + jqXHR.status);
+            },
             success: function (result) {
                 showUserTable(result);
             }
@@ -90,6 +94,9 @@ $(document).ready(function () {
                     email: jQuery('#email').val(),
                     roles: jQuery('#roles').val()
                 }),
+            error: function(jqXHR) {
+                alert('Ошибка при редактировании пользователя - Internal server error: ' + jqXHR.status);
+            },
             success: function (result) {
                 showUserTable(result);
             }
